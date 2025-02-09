@@ -1,9 +1,14 @@
 "use client";
 
 import Input from "@/components/input";
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useState } from "react";
 
 export default function AuthPage() {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +19,33 @@ export default function AuthPage() {
       currentVariant === "login" ? "register" : "login",
     );
   }, []);
+
+  const signin = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password, router]);
+
+  const signup = useCallback(async () => {
+    try {
+      await axios.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+      });
+      signin();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [name, email, password, signin]);
 
   return (
     <div className="h-full w-full bg-cover bg-fixed bg-center bg-no-repeat sm:bg-[url('/images/background.jpg')]">
@@ -51,7 +83,10 @@ export default function AuthPage() {
                   setPassword(event.currentTarget.value)
                 }
               />
-              <button className="mt-2 block w-full rounded-md bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700 active:bg-red-900">
+              <button
+                className="mt-2 block w-full rounded-md bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700 active:bg-red-900"
+                onClick={variant === "login" ? signin : signup}
+              >
                 {variant === "login" ? "Sign In" : "Sign Up"}
               </button>
               <p className="text-neutral-400">
