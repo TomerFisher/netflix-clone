@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply h-full;
+  @apply h-full bg-zinc-900 overflow-x-hidden;
 }
 
 html {
