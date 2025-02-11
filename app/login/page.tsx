@@ -1,8 +1,9 @@
 "use client";
 
-import Input from "@/components/input";
+import Input from "@/components/Input";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useState } from "react";
 import { FaGithub } from "react-icons/fa";
@@ -53,7 +54,15 @@ export default function AuthPage() {
     <div className="h-full w-full bg-cover bg-fixed bg-center bg-no-repeat sm:bg-[url('/images/background.jpg')]">
       <div className="h-full w-full bg-black sm:bg-opacity-50">
         <header className="px-5 py-1 xl:px-36">
-          <img src="/images/logo.png" alt="Logo" className="h-20" />
+          <div className="relative h-20">
+            <Image
+              src="/images/logo.png"
+              alt="Logo"
+              fill
+              objectFit="contain"
+              className="object-left"
+            />
+          </div>
         </header>
         <main className="flex justify-center">
           <div className="mt-2 w-full min-w-96 rounded bg-black bg-opacity-70 px-16 py-16 sm:w-2/5 sm:max-w-md">
