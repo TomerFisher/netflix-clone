@@ -1,3 +1,9 @@
-export default function Home() {
-  return <h1>Netflix Clone</h1>;
+import Navbar from "@/components/Navbar";
+
+export default async function Home() {
+  return (
+    <>
+      <Navbar />
+    </>
+  );
 }
